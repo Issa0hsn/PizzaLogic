@@ -91,7 +91,7 @@ scaled_x[:,2]=z_score(x[:,2],m)
 scaled_x[:,3]=z_score(x[:,3],m)
 scaled_x[:,4]=z_score(x[:,4],m)
 scaled_x[:,5]=z_score(x[:,5],m)
-print(scaled_x)
+
 def cost(x,y,w,b,m,l):
     loss=sum(-y*(np.log(prediction(x,w,b)+1e-15))-(1-y)*(np.log(1-prediction(x,w,b)+1e-15)))
     total=loss/m
@@ -108,15 +108,12 @@ def grad(w,b,x,y,a,l,m):
     return w,b
 
 cost_history=[]
-t1=time.time()
-print(cost(scaled_x,y,w,b,m,0.1))
+
 for i in range (1000000):
     if i%10000==0:
         cost_history.append(cost(scaled_x,y,w,b,m,0.1))
     w,b=grad(w,b,scaled_x,y,0.2,0.1,m)  
-t2=time.time()    
-print(cost(scaled_x,y,w,b,m,0.1))
-print(t2-t1)
+
 
 # -------------------------------------------------------
 # 1. learning curve
@@ -210,5 +207,6 @@ plot_cost_clean(cost_history)
 
 
 plot_accuracy_pie(scaled_x, y, w, b)
+
 
 plot_decision_boundaries(scaled_x, y, w, b)

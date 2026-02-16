@@ -155,49 +155,55 @@ def plot_accuracy_pie(x, y, w, b):
 # -------------------------------------------------------
  
 
-def plot_decision_boundaries(x_scaled, y, w, b):
+def plot_decision_boundaries(x_scaled, x_original, y, w, b):
     
-    feature_names = ["dough weight"," cheese weight", "cheese price"," peperoni weight", "vegetables price"," pizza price"]
-    
-
+    feature_names = ["dough weight", "cheese weight", "cheese price", "peperoni weight", "vegetables price", "pizza price"]
     price_col_index = 5 
     w_price = w[price_col_index]
-    
- 
+
+
+    m = x_original.shape[0] 
+    mu = np.mean(x_original, axis=0)
+    sigma = np.std(x_original, axis=0) 
     fig, axes = plt.subplots(2, 3, figsize=(18, 12))
     axes = axes.ravel() 
-    
     
     for i in range(5): 
         ax = axes[i]
         
+        ax.scatter(x_original[y==0, i], x_original[y==0, price_col_index], 
+                   c='blue', label='Fair price', alpha=0.6, edgecolors='k')
         
-        ax.scatter(x_scaled[y==0, i], x_scaled[y==0, price_col_index], 
-                   c='blue', label='Fair price', alpha=0.7, edgecolors='k')
-        ax.scatter(x_scaled[y==1, i], x_scaled[y==1, price_col_index], 
-                   c='red', label='Expensive price', alpha=0.7, edgecolors='k')
+        ax.scatter(x_original[y==1, i], x_original[y==1, price_col_index], 
+                   c='red', label='Expensive price', alpha=0.6, edgecolors='k')
         
-        
-        
-        x_min, x_max = x_scaled[:, i].min(), x_scaled[:, i].max()
+        x_min, x_max = x_original[:, i].min(), x_original[:, i].max()
         x_line = np.linspace(x_min, x_max, 100)
         
+        x_line_scaled = (x_line - mu[i]) / sigma[i]
         
         if abs(w_price) > 1e-5: 
-            y_line = (-b - w[i] * x_line) / w_price
-            ax.plot(x_line, y_line, c='black', linewidth=3, linestyle='--', label='decision boundary')
+            
+            
+            y_line_scaled = (-b - w[i] * x_line_scaled) / w_price
+            
+            
+            y_line_original = (y_line_scaled * sigma[price_col_index]) + mu[price_col_index]
+            
+            
+            ax.plot(x_line, y_line_original, c='black', linewidth=3, linestyle='--', label='Decision Boundary')
+
         ax.set_title(f"{feature_names[i]} vs {feature_names[price_col_index]}")
-        ax.set_xlabel(feature_names[i] + " (Scaled)")
-        ax.set_ylabel("Price (Scaled)")
+        ax.set_xlabel(feature_names[i]) # لم تعد Scaled
+        ax.set_ylabel("Pizza Price ($)")
         ax.legend()
         ax.grid(True, alpha=0.3)
 
-    
     axes[5].axis('off')
-    
     plt.tight_layout()
     plt.show()
 
+plot_decision_boundaries(scaled_x, x, y, w, b)
 # ==========================================
 # Calling function
 # ==========================================
@@ -209,4 +215,5 @@ plot_cost_clean(cost_history)
 plot_accuracy_pie(scaled_x, y, w, b)
 
 
-plot_decision_boundaries(scaled_x, y, w, b)
+plot_decision_boundaries(scaled_x, x, y, w, b))
+

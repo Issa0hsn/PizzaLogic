@@ -53,8 +53,10 @@ Pizza Auditor هو مشروع ذكاء اصطناعي تعليمي مصمم لك
    
     python Pizzalogic.py
 
-## النتائج  📈📊 :
-<img width="1920" height="983" alt="Screenshot 2026-02-18 142415" src="https://github.com/user-attachments/assets/29a7a53e-1c49-4258-8300-d9ff1eded602" />
+## النتائج  📈📊:  
+
+<img width="1906" height="952" alt="Screenshot 2026-02-19 053151" src="https://github.com/user-attachments/assets/8807b960-8485-4c41-aea3-4b70041df9a1" />
+
 
 <img width="922" height="834" alt="Screenshot 2026-02-18 142404" src="https://github.com/user-attachments/assets/38854511-b28c-4fc1-8252-f26ef64d33da" />
 

@@ -68,7 +68,7 @@ b=10
 def prediction(x,w,b):
     f=np.dot(x,w)+b
     return 1/(1+(np.exp(-f)))
-#done
+
 def z_score(x,n):
     if n==1:
         m=1
@@ -76,15 +76,18 @@ def z_score(x,n):
         m=np.mean(x)
     s = ((np.sum((x-m)**2))/n)**(1/2)
     return (x-m)/s
+
+
 def unscale(origin,current,n):
     if n==1:
         m=1
     else:
         m=np.mean(origin)
     s= ((np.sum((origin-m)**2))/n)**(1/2)
-    return (current*s)+m       
-scaled_x=np.copy(x)
+    return (current*s)+m  
 
+
+scaled_x=np.copy(x)
 scaled_x[:,0]=z_score(x[:,0],m)
 scaled_x[:,1]=z_score(x[:,1],m)
 scaled_x[:,2]=z_score(x[:,2],m)
@@ -106,6 +109,7 @@ def grad(w,b,x,y,a,l,m):
     b=b-a*dj_db/m
     w=w-a*dj_dw
     return w,b
+
 
 cost_history=[]
 
@@ -194,7 +198,7 @@ def plot_decision_boundaries(x_scaled, x_original, y, w, b):
             ax.plot(x_line, y_line_original, c='black', linewidth=3, linestyle='--', label='Decision Boundary')
 
         ax.set_title(f"{feature_names[i]} vs {feature_names[price_col_index]}")
-        ax.set_xlabel(feature_names[i]) # لم تعد Scaled
+        ax.set_xlabel(feature_names[i]) 
         ax.set_ylabel("Pizza Price ($)")
         ax.legend()
         ax.grid(True, alpha=0.3)
@@ -216,4 +220,5 @@ plot_accuracy_pie(scaled_x, y, w, b)
 
 
 plot_decision_boundaries(scaled_x, x, y, w, b))
+
 
